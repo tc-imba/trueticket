@@ -57,20 +57,22 @@
 	</div>
 	
 	<div class="text-xs-center">
-		<img src="#" height="150" width="90%"/>
+		<img src="/generate?str=<?php echo $ticket->money_id;?>" width="90%"/>
 	</div>
 	
 	<hr>
 	
 	<div class="row">
-		<h5 class="col-xs-4 text-xs-right">查询信息</h5>
+		<h5 class="col-xs-6 text-xs-center">查询时间</h5>
+		<h5 class="col-xs-6 text-xs-center">查询位置</h5>
 	</div>
 	
 	<?php foreach ($scan_list as $index => $scan): ?>
 		
 		<div class="row">
-			<h5 class="col-xs-1 text-xs-right"><?php echo $index; ?></h5>
-			<h5 class="col-xs-11 text-xs-left"><?php echo $scan->ip; ?></h5>
+<!--			<h5 class="col-xs-1 text-xs-right"><?php /*echo $index+1; */?></h5>
+-->			<h5 class="col-xs-6 text-xs-center  "><?php echo $scan->CREATE_TIMESTAMP; ?></h5>
+			<h5 class="col-xs-6 text-xs-center"><?php echo $scan->ip_str; ?></h5>
 		</div>
 	
 	<?php endforeach; ?>
@@ -86,7 +88,9 @@
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		
+		$.ajax({
+			url:'/'
+		});
 	});
 </script>
 
