@@ -46,8 +46,12 @@ class Main_model extends CI_Model
 	public function load_scan($id)
 	{
 		$query = $this->db->get_where('scan', array('id' => $id));
-		$data = $query->row_array();
-		return $data;
+		if ($query->num_rows() > 0)
+		{
+			$data = $query->row_array();
+			return $data;
+		}
+		return array();
 	}
 	
 	
