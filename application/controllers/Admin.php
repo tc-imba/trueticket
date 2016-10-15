@@ -13,11 +13,11 @@ class Admin extends Front_Controller
 	{
 		if (!isset($_SESSION['userid']) || !$_SESSION['userid'])
 		{
-			redirect('admin/login');
+			redirect(base_url('admin/login'));
 		}
 		else
 		{
-			redirect('admin/check');
+			redirect(base_url('admin/check'));
 		}
 	}
 	
@@ -32,11 +32,11 @@ class Admin extends Front_Controller
 		$password = $this->input->get('password');
 		if ($this->Main_model->login($username, $password))
 		{
-			redirect('admin/check');
+			redirect(base_url('admin/check'));
 		}
 		else
 		{
-			redirect('admin/login');
+			redirect(base_url('admin/login'));
 		}
 	}
 	

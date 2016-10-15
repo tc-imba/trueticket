@@ -28,9 +28,12 @@ class Welcome extends Front_Controller
 		$data = array(
 			'ticket' => $ticket,
 			'event' => $this->Main_model->load_event($ticket->event_id),
-		    'scan' => $this->Main_model->load_event($ticket->id)
+		    'scan_list' => $this->Main_model->load_scan($ticket->id)
 		);
 		print_r($data);
+		
+		echo $_SERVER["REMOTE_ADDR"];
+		
 		if (!isset($_SESSION['userid']) || !$_SESSION['userid'])
 		{
 			// User

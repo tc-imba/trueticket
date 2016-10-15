@@ -21,7 +21,8 @@
 <div class="container">
 	<div class="text-xs-center">
 		<img src="#" height="30%" width="90%"/>
-	</div></div>
+	</div>
+</div>
 
 <br>
 
@@ -65,8 +66,15 @@
 		<h5 class="col-xs-4 text-xs-right">查询信息</h5>
 	</div>
 	
+	<?php foreach ($scan_list as $index => $scan): ?>
+		
+		<div class="row">
+			<h5 class="col-xs-1 text-xs-right"><?php echo $index; ?></h5>
+			<h5 class="col-xs-11 text-xs-left"><?php echo $scan->ip; ?></h5>
+		</div>
 	
-	
+	<?php endforeach; ?>
+
 </div>
 
 
