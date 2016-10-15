@@ -23,8 +23,6 @@ class Scan extends Front_Controller
 		{
 			$create_time = strtotime($scan_list[0]->CREATE_TIMESTAMP);
 			$now = time();
-			//echo date('Y-m-d H:i:s', time()).'<br>';
-			//echo $now.' 1 '.$create_time;
 			if ($now - $create_time <= 60)
 			{
 				echo 'fail4';

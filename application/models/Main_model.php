@@ -64,6 +64,14 @@ class Main_model extends CI_Model
 		));
 	}
 	
+	public function checkin($id)
+	{
+		$this->db->update('ticket', array(
+			'check_time'     => date('Y-m-d H:i:s', time()),
+			'check_admin_id' => $_SESSION['userid']
+		), array('id' => $id));
+	}
+	
 	public function encrypt($str)
 	{
 		$key = pack('H*', 'add6c1c94070e379226b8feab88bfe50');
@@ -117,49 +125,35 @@ class Main_model extends CI_Model
 		}
 	}
 	
-	public function request_get($url = '')
-	{
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // 对认证证书来源的检查
-		//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1); // 从证书中检查SSL加密算法是否存在
-		curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']); // 模拟用户使用的浏览器
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // 使用自动跳转
-		curl_setopt($ch, CURLOPT_AUTOREFERER, 1); // 自动设置Referer
-		//curl_setopt($ch, CURLOPT_POST, 1); // 发送一个常规的Post请求
-		//curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost); // Post提交的数据包
-		curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 设置超时限制防止死循环
-		curl_setopt($ch, CURLOPT_HEADER, 0); // 显示返回的Header区域内容
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // 获取的信息以文件流的形式返回
-		
-		$data = curl_exec($ch);//运行curl
-		if (curl_errno($ch))
-		{
-			echo 'Errno' . curl_error($ch);//捕抓异常
-		}
-		curl_close($ch);
-		return $data;
-	}
-	
 	public function generate_demo($str)
 	{
 		$image = imagecreatefrompng('./img/demo.png');
-		$font_file = './img/calibril.ttf';
+		$font_file = './img/SourceCodePro-Light.ttf';
 		
-		$red = imagecolorallocate($image, 0xFF, 0x00, 0x00);
+		$red = imagecolorallocate($image, 0xC5, 0x1F, 0x1F);
 		$black = imagecolorallocate($image, 0x00, 0x00, 0x00);
 		
 		$red_str = substr($str, 0, 4);
 		$black_str = substr($str, 4, 6);
 		
-		for ($i = 0; $i < 4; $i++)
+		$offset = 0;
+		for ($i = 3; $i >= 0; $i--)
 		{
-			imagefttext($image, ($red_str[$i] >= '0' && $red_str[$i] <= '9' ? 18 : 22), 0,
-			            60 + $i * 15, 110, $red, $font_file, $red_str[$i]);
+			
+			if ($red_str[$i] >= '0' && $red_str[$i] <= '9')
+			{
+				$offset += 14;
+				imagefttext($image, 17, 0, 115 - $offset, 110, $red, $font_file, $red_str[$i]);
+			}
+			else
+			{
+				$offset += 17;
+				imagefttext($image, 22, 0, 115 - $offset, 110, $red, $font_file, $red_str[$i]);
+			}
 		}
 		for ($i = 0; $i < 6; $i++)
 		{
-			imagefttext($image, 18, 0, 120 + $i * 14, 110, $black, $font_file, $black_str[$i]);
+			imagefttext($image, 17, 0, 120 + $i * 14, 110, $black, $font_file, $black_str[$i]);
 		}
 		
 		header('Content-Type: image/png');
