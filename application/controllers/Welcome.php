@@ -5,8 +5,6 @@ class Welcome extends Front_Controller
 {
 	public function index()
 	{
-		//echo $this->Main_model->encrypt('1') . '<br>';
-		error_reporting(E_ALL);
 		
 		$code = $this->input->get('data');
 		if (!$code)
