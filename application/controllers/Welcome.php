@@ -7,7 +7,7 @@ class Welcome extends Front_Controller
 	{
 		//echo $this->Main_model->encrypt('1') . '<br>';
 		
-		$code = $this->input->get('data');
+		$code = urldecode($this->input->get('data'));
 		if (!$code)
 		{
 			$this->load->view('homepage');
