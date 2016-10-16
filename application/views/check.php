@@ -20,7 +20,7 @@
 
 <div class="container">
 	<div class="text-xs-center">
-		<img src="/img/event/<?php echo $event->img?>"  width="90%"/>
+		<img src="/img/event/<?php echo $event->img; ?>" width="90%"/>
 	</div>
 </div>
 
@@ -46,17 +46,17 @@
 	
 	<div class="row">
 		<h5 class="col-xs-4 text-xs-right">结束时间</h5>
-		<h5 class="col-xs-8 text-xs-left"><?php echo $event->end_time ?></h5>
+		<h5 class="col-xs-8 text-xs-left"><?php echo $event->end_time; ?></h5>
 	</div>
 	
 	<div class="row">
 		<h5 class="col-xs-4 text-xs-right">地址</h5>
-		<h5 class="col-xs-8 text-xs-left"><?php echo $event->place ?></h5>
+		<h5 class="col-xs-8 text-xs-left"><?php echo $event->place; ?></h5>
 	</div>
 	
 	<div class="row">
 		<h5 class="col-xs-4 text-xs-right">主办方</h5>
-		<h5 class="col-xs-8 text-xs-left"><?php echo $event->host ?></h5>
+		<h5 class="col-xs-8 text-xs-left"><?php echo $event->host; ?></h5>
 	</div>
 	
 	<hr>
@@ -89,8 +89,7 @@
 		<?php foreach ($scan_list as $index => $scan): ?>
 			
 			<div class="row">
-				<!--			<h5 class="col-xs-1 text-xs-right"><?php /*echo $index+1; */ ?></h5>
---> <h5 class="col-xs-6 text-xs-center  "><?php echo $scan->CREATE_TIMESTAMP; ?></h5>
+				<h5 class="col-xs-6 text-xs-center  "><?php echo $scan->CREATE_TIMESTAMP; ?></h5>
 				<h5 class="col-xs-6 text-xs-center"><?php echo $scan->ip_str; ?></h5>
 			</div>
 		
