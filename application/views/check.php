@@ -37,7 +37,7 @@
 			<h5 class="col-xs-8 text-xs-left"><?php echo $ticket->check_time; ?></h5>
 		</div>
 		<hr>
-	<? endif; ?>
+	<?php endif; ?>
 	
 	<div class="row">
 		<h5 class="col-xs-4 text-xs-right">开始时间</h5>
