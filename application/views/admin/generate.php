@@ -21,7 +21,7 @@
 <div class="container">
 	
 	<div class="text-xs-center">
-		<img src="/admin/generate_image?str=<?php echo urlencode($str); ?>" width="90%">
+		<img src="/admin/generate_image?url=<?php echo $url; ?>" width="90%">
 	</div>
 	<a href="<?php echo $str ?>"><?php echo $str ?></a>
 </div>

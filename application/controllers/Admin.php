@@ -84,13 +84,15 @@ class Admin extends Front_Controller
 	public function generate()
 	{
 		$data = array('id' => $this->input->get('id'),);
-		$data['str'] = base_url() . '?data=' . urlencode($this->Main_model->encrypt($data['id']));
+		$data['url'] = urlencode($this->Main_model->encrypt($data['id']));
+		$data['str'] = base_url() . '?data=' . $data['url'];
 		$this->load->view('admin/generate', $data);
 	}
 	
 	public function generate_image()
 	{
-		$str = urldecode($this->input->get('str'));
+		$url = urlencode($this->input->get('url'));
+		$str = base_url() . '?data=' . $url;
 		$this->load->library('QRcode');
 		header('Content-Type: image/png');
 		QRcode::png($str, false, QR_ECLEVEL_L, 10);

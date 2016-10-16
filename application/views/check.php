@@ -64,7 +64,11 @@
 	<?php if ($type == 'admin'): ?>
 		
 		<div class="text-xs-center">
-			<div class="btn btn-lg btn-outline-primary" id="check">Check in</div>
+			<?php if ($ticket->check_admin_id): ?>
+				<div class="btn btn-lg btn-danger disabled" id="check">已验票</div>
+			<?php else: ?>
+				<div class="btn btn-lg btn-outline-primary" id="check">验票</div>
+			<?php endif; ?>
 		</div>
 	
 	

@@ -37,7 +37,8 @@ class Welcome extends Front_Controller
 			{
 				$ip_location = IP::find($scan->ip);
 				$data['scan_list'][$key]->ip_str = $ip_location[1];
-				$data['scan_list'][$key]->CREATE_TIMESTAMP = substr($data['scan_list'][$key]->CREATE_TIMESTAMP, 5);
+				$time = strtotime($data['scan_list'][$key]->CREATE_TIMESTAMP);
+				$data['scan_list'][$key]->CREATE_TIMESTAMP = date('m-d H:i:s', $time);
 			}
 		}
 		else
