@@ -25,22 +25,32 @@
 <br>
 
 <div class="container">
-	
-	<div class="form-group row">
-		<label for="example-text-input" class="col-xs-2 col-form-label">Username</label>
-		<div class="col-xs-10">
-			<input class="form-control" type="text" name="username" id="input-username">
+	<div class="form-group row <?php echo ($error && !$username) ? 'has-danger' : ''; ?>">
+		<label for="example-text-input" class="col-xs-4 col-form-label text-xs-right">Username</label>
+		<div class="col-xs-8">
+			<input class="form-control form-control-danger" type="text" name="username" id="input-username"
+			       value="<?php echo $username; ?>">
+			<?php if ($error && !$username): ?>
+				<div class="form-control-feedback">Please enter your username.</div>
+			<?php endif; ?>
 		</div>
 	</div>
 	
-	<div class="form-group row">
-		<label for="example-search-input" class="col-xs-2 col-form-label">Password</label>
-		<div class="col-xs-10">
-			<input class="form-control" type="password" name="password" id="input-password">
+	<div class="form-group row <?php echo $error ? 'has-danger' : ''; ?>">
+		<label for="example-search-input" class="col-xs-4 col-form-label text-xs-right">Password</label>
+		<div class="col-xs-8">
+			<input class="form-control form-control-danger" type="password" name="password" id="input-password">
+			<?php if ($error): ?>
+				<div class="form-control-feedback">check and try again.</div>
+			<?php endif; ?>
 		</div>
 	</div>
 	
-	<div class="btn btn-outline-primary" id="btn-login">Login</div>
+	
+	<div class="text-xs-center">
+		<button class="btn btn-outline-primary" id="btn-login">Login</button>
+	</div>
+
 </div>
 
 
@@ -57,6 +67,13 @@
 			var username = $("#input-username").val();
 			var password = $("#input-password").val();
 			window.location.href = '/admin/auth?username=' + username + '&password=' + $.md5(password);
+		});
+		$(document).keydown(function (e)
+		{
+			if (e.keyCode == 13)
+			{
+				$("#btn-login").click();
+			}
 		});
 	});
 </script>

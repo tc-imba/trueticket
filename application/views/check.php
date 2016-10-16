@@ -20,7 +20,7 @@
 
 <div class="container">
 	<div class="text-xs-center">
-		<img src="#" height="30%" width="90%"/>
+		<img src="/img/event/<?php echo $event->img?>"  width="90%"/>
 	</div>
 </div>
 
@@ -30,6 +30,15 @@
 	
 	<h4 class="text-xs-center"><?php echo $event->name; ?></h4>
 	<hr>
+	
+	<?php if ($ticket->check_admin_id): ?>
+		<div class="row">
+			<h5 class="col-xs-4 text-xs-right">已验票于</h5>
+			<h5 class="col-xs-8 text-xs-left"><?php echo $ticket->check_time; ?></h5>
+		</div>
+		<hr>
+	<? endif; ?>
+	
 	<div class="row">
 		<h5 class="col-xs-4 text-xs-right">开始时间</h5>
 		<h5 class="col-xs-8 text-xs-left"><?php echo $event->start_time ?></h5>
@@ -52,28 +61,43 @@
 	
 	<hr>
 	
-	<div class="row">
-		<h5 class="col-xs-4 text-xs-right">防伪信息</h5>
-	</div>
-	
-	<div class="text-xs-center">
-		<img src="#" height="150" width="90%"/>
-	</div>
-	
-	<hr>
-	
-	<div class="row">
-		<h5 class="col-xs-4 text-xs-right">查询信息</h5>
-	</div>
-	
-	<?php foreach ($scan_list as $index => $scan): ?>
+	<?php if ($type == 'admin'): ?>
 		
-		<div class="row">
-			<h5 class="col-xs-1 text-xs-right"><?php echo $index; ?></h5>
-			<h5 class="col-xs-11 text-xs-left"><?php echo $scan->ip; ?></h5>
+		<div class="text-xs-center">
+			<div class="btn btn-lg btn-outline-primary" id="check">Check in</div>
 		</div>
 	
-	<?php endforeach; ?>
+	
+	<?php else: ?>
+		
+		
+		<div class="row">
+			<h5 class="col-xs-4 text-xs-right">防伪信息</h5>
+		</div>
+		
+		<div class="text-xs-center">
+			<img src="/generate?str=<?php echo $ticket->money_id; ?>" width="90%"/>
+		</div>
+		
+		<hr>
+		
+		<div class="row">
+			<h5 class="col-xs-6 text-xs-center">查询时间</h5>
+			<h5 class="col-xs-6 text-xs-center">查询位置</h5>
+		</div>
+		
+		<?php foreach ($scan_list as $index => $scan): ?>
+			
+			<div class="row">
+				<!--			<h5 class="col-xs-1 text-xs-right"><?php /*echo $index+1; */ ?></h5>
+--> <h5 class="col-xs-6 text-xs-center  "><?php echo $scan->CREATE_TIMESTAMP; ?></h5>
+				<h5 class="col-xs-6 text-xs-center"><?php echo $scan->ip_str; ?></h5>
+			</div>
+		
+		<?php endforeach; ?>
+	
+	
+	<?php endif; ?>
 
 </div>
 
@@ -86,7 +110,32 @@
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		
+		<?php if($type == 'admin'): ?>
+		$("#check").click(function ()
+		{
+			$.ajax({
+				url: '/admin/check',
+				type: 'get',
+				data: {data: '<?php echo $code;?>'},
+				dataType: 'text',
+				success: function (data)
+				{
+					alert(data);
+				},
+				error: function ()
+				{
+					alert('未知错误，请稍后重试');
+				}
+			});
+		});
+		<?php else:?>
+		$.ajax({
+			url: '/scan',
+			type: 'get',
+			data: {data: '<?php echo $code;?>'},
+			dataType: 'text'
+		});
+		<?php endif;?>
 	});
 </script>
 

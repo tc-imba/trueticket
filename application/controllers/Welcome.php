@@ -5,43 +5,49 @@ class Welcome extends Front_Controller
 {
 	public function index()
 	{
-		echo $this->Main_model->encrypt('2') . '<br>';
-		unset($_SESSION['userid']);
+		//echo $this->Main_model->encrypt('1') . '<br>';
 		
-		$data = $this->input->get('data');
-		if (!$data)
+		$code = $this->input->get('data');
+		if (!$code)
 		{
-			// error
+			$this->load->view('homepage');
+			return;
 		}
 		
-		$data = $this->Main_model->decrypt($data);
-		if (!is_int($data))
-		{
-			// error
-		}
-		
-		$ticket = $this->Main_model->load_ticket($data);
+		$data_decrypt = $this->Main_model->decrypt($code);
+		$ticket = $this->Main_model->load_ticket($data_decrypt);
 		if (!$ticket)
 		{
-			// error
+			$this->load->view('error');
+			return;
 		}
 		$data = array(
+			'code'   => $code,
 			'ticket' => $ticket,
-			'event' => $this->Main_model->load_event($ticket->event_id),
-		    'scan_list' => $this->Main_model->load_scan($ticket->id)
+			'event'  => $this->Main_model->load_event($ticket->event_id)
 		);
-		print_r($data);
 		
-		echo $_SERVER["REMOTE_ADDR"];
 		
 		if (!isset($_SESSION['userid']) || !$_SESSION['userid'])
 		{
 			// User
-			$this->load->view('check', $data);
+			$data['type'] = 'user';
+			$data['scan_list'] = $this->Main_model->load_scan($ticket->id);
+			$this->load->library('IP');
+			foreach ($data['scan_list'] as $key => $scan)
+			{
+				$ip_location = IP::find($scan->ip);
+				$data['scan_list'][$key]->ip_str = $ip_location[1];
+				$data['scan_list'][$key]->CREATE_TIMESTAMP = substr($data['scan_list'][$key]->CREATE_TIMESTAMP, 5);
+			}
 		}
 		else
 		{
 			// Admin
+			$data['type'] = 'admin';
+			
 		}
+		$this->load->view('check', $data);
+		
 	}
 }
